@@ -3,7 +3,7 @@ module Standard
     def call(offenses)
       offenses.any? { |offense|
         cop = cop_instance(offense.cop_name)
-        cop.support_autocorrect? && safe?(cop)
+        cop.class.support_autocorrect? && safe?(cop)
       }
     end
 

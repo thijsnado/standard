@@ -1,3 +1,5 @@
+require "rubocop/cop/legacy/corrector"
+
 # Most of this was adapted from Rubocop's
 #
 # lib/rubocop/rspec/expect_offense.rb
@@ -46,7 +48,7 @@ module CopInvoker
   def assert_correction(cop, expected)
     raise "`assert_correction` must follow `assert_offense`" unless @last_source
 
-    actual = RuboCop::Cop::Corrector.new(@last_source.buffer, cop.corrections).rewrite
+    actual = RuboCop::Cop::Legacy::Corrector.new(@last_source.buffer, cop.corrections).rewrite
 
     assert_equal expected, actual
   end
@@ -56,7 +58,7 @@ module CopInvoker
 
     return if cop.corrections.empty?
 
-    actual = RuboCop::Cop::Corrector.new(@last_source.buffer, cop.corrections).rewrite
+    actual = RuboCop::Cop::Legacy::Corrector.new(@last_source.buffer, cop.corrections).rewrite
 
     assert_equal @last_source.buffer.source, actual
   end
@@ -172,11 +174,7 @@ module CopInvoker
   end
 
   def _investigate(cop, last_source)
-    forces = RuboCop::Cop::Force.all.each_with_object([]) { |klass, instances|
-      next unless cop.join_force?(klass)
-
-      instances << klass.new([cop])
-    }
+    forces = Array(cop.class.joining_forces)
 
     commissioner = RuboCop::Cop::Commissioner.new([cop], forces, raise_error: true)
     commissioner.investigate(last_source)

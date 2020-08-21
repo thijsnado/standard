@@ -526,7 +526,7 @@ Lint/UriRegexp:
 Lint/UselessAssignment:
   Enabled: true
 
-Lint/UselessComparison:
+Lint/BinaryOperatorWithIdenticalOperands:
   Enabled: true
 
 Lint/UselessElseWithoutRescue:
@@ -821,7 +821,7 @@ Style/MethodCallWithoutArgsParentheses:
   Enabled: true
   IgnoredMethods: []
 
-Style/MethodMissingSuper:
+Lint/MissingSuper:
   Enabled: true
 
 Style/MissingRespondToMissing:
